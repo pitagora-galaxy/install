@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# GET BASE DIRECTORY PATH
+BASEDIR=$(cd $(dirname ${0}) && pwd -P)
+
 # CREATE GALAXY SERVICE
-sudo cp ../scripts/galaxy.service /etc/systemd/system/
+sudo cp "${BASEDIR}/../scripts/galaxy.service /etc/systemd/system/"
 sudo chmod 644 /etc/systemd/system/galaxy.service
 
 # CREATE MYSQL DATABASE AND USER
@@ -28,20 +31,20 @@ ls -l ~/galaxy/database
 
 # HTTP PROXY
 sudo a2enmod rewrite proxy proxy_http
-sudo cp ./000-default.conf /etc/apache2/sites-available/
-sudo cp ./.htaccess /var/www/html/
+sudo cp "${BASEDIR}/000-default.conf" /etc/apache2/sites-available/
+sudo cp "${BASEDIR}/.htaccess" /var/www/html/
 sudo chmod 644 /etc/apache2/sites-available/000-default.conf
 sudo chmod 644 /var/www/html/.htaccess
 sudo service apache2 restart
 
 # MODIFY GALAXY CONFIG
-cp ../config/galaxy.ini ~/galaxy/config/
-cp ../config/job_conf.xml ~/galaxy/config/
-cp ../config/tool_data_table_conf.xml ~/galaxy/config/
-cp ../config/tool_sheds_conf.xml ~/galaxy/config/
+cp "${BASEDIR}/../config/galaxy.ini" ~/galaxy/config/
+cp "${BASEDIR}/../config/job_conf.xml" ~/galaxy/config/
+cp "${BASEDIR}/../config/tool_data_table_conf.xml" ~/galaxy/config/
+cp "${BASEDIR}/../config/tool_sheds_conf.xml" ~/galaxy/config/
 cp ~/galaxy/config/tool_conf.xml.sample ~/galaxy/config/tool_conf.xml
-export PATH=$HOME/galaxy-python/install/bin:$PATH
-export PYTHONPATH=$HOME/galaxy-python/install/lib/python2.11/site-packages
+export PATH="${HOME}/galaxy-python/install/bin:${PATH}"
+export PYTHONPATH="${HOME}/galaxy-python/install/lib/python2.11/site-packages"
 sudo service galaxy start
 
 # START SERVICES
