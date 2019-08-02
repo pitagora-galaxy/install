@@ -3,6 +3,10 @@
 # For EC2: add hostname to /etc/hostname to avoid warnings on sudo
 sudo sh -c 'echo 127.0.1.1 $(hostname) >> /etc/hosts'
 
+# CONFIG MYSQL PASSWORD
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password galaxy'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password galaxy'
+
 # INSTALLING OS PACKAGES
 sudo apt-get update -y && sudo apt-get install -y \
   sysv-rc-conf \
